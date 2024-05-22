@@ -54,12 +54,12 @@ parseFallbacks <- function(lines){
   return(df)
 }
 
-fallbackProjects <- function(){
+getProjectNames <- function(){
   #' Returns a dataframe with the projects available for DART query
   #'
   #' @return data frame
   #' @export
-  #' @examples fallbackProjects()
+  #' @examples getProjectNames()
   #'
   df <- data.frame(proj=c("B2A","TDA","JDL","MCA","IHA","LMA","GOA","GRA"),
                    name=c("Bonneville","The Dalles","John Day","McNary","Ice Harbor","Lower Monumental","Little Goose","Lower Granite"),
@@ -67,24 +67,23 @@ fallbackProjects <- function(){
   return(df)
 }
 
-fallbackSpecies <- function(){
-  #' Returns a vector with the species available for DART query. Use which() to get code
+getSpeciesNames <- function(){
+  #' Returns a vector with the species available for DART query.
   #'
   #' @return data frame
   #' @export
-  #' @examples fallbackSpecies()
-  #' @examples which(fallbackSpecies(),"Chinook")
+  #' @examples getSpeciesNames()
   #'
   species <- c("Chinook","Coho","Steelhead","Sockeye")
   return(species)
 }
 
-fallbackRuns <- function(){
+getRunNames <- function(){
   #' Returns a dataframe with the runs available for DART query
   #'
   #' @return data frame
   #' @export
-  #' @examples fallbackRuns()
+  #' @examples getRunNames()
   #'
 
   runs <- data.frame(r=c("1","2","3","4","5","All"),
@@ -124,7 +123,10 @@ getDARTAdultMainstem <- function(year=2023,proj="B2A",s=1,r="All",rt="All",relsi
   rel.csv <- read.csv(rel.link,stringsAsFactors=F) %>%
     mutate(rel_yr=as.numeric(rel_yr)) %>%
     filter(!is.na(rel_yr)) %>%
-    mutate(rel_date=ymd(rel_date))
+    mutate(rel_date=ymd(rel_date)) %>%
+    mutate(species=getSpeciesNames()[s]) %>%
+    mutate(run=getRunNames()$name[run])
+
   print("releases")
 
   if(datatype=="ascents"){
