@@ -90,7 +90,7 @@ getRunNames <- function(){
                      name=c("Spring","Summer","Fall","Winter","Unknown","All"))
 }
 
-getDARTAdultMainstem <- function(year=2023,proj="B2A",s=1,r="All",rt="All",relsite="norestrict",trans="norestrict",relregion="norestrict",taginyear="norestrict",datatype="ascents"){
+getDARTAdultMainstem <- function(year=2023,proj="B2A",s=1,r="All",rt="All",relsite="norestrict",trans="norestrict",relregion="norestrict",taginyear="no",datatype="ascents"){
   #' Submits a call to the Fallbacks page on DART.
   #'
   #' @param datatype String,
@@ -98,14 +98,17 @@ getDARTAdultMainstem <- function(year=2023,proj="B2A",s=1,r="All",rt="All",relsi
   #' @param proj String. Project code.
   #' @param s Number. Species code.
   #' @param r Number. Run code.
-  #' @param relsite String.
-  #' @param relsite String. The url for the page to be scraped
+  #' @param relsite String. norestrict, above, below
+  #' @param taginyear String norestrict, no (default), or only
+  #' @param datatype
   #' @return list
   #' @export
   #' @examples getDARTAdultMainstem())
   #'
 
   require(httr)
+  require(lubridate)
+  require(dplyr)
 
   url <- paste0("https://www.cbr.washington.edu/dart/cs/php/rpt/pit_fallback.php?year=",year,"&proj=",proj,"&s=",s,"&r=",r,"&rt=",rt,"&relsite=",relsite,"&relregion=norestrict&taginyear=",taginyear,"&trans=",trans,"&period=season")
   print(url)
